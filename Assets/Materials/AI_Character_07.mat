@@ -74,8 +74,8 @@ Material:
     - _DstBlend: 0
     - _EmisiveMapIntensity: 1
     - _EmisiveMapOn: 0
-    - _FresnelExponent: 3.3
-    - _FresnelIntensity: -1.01
+    - _FresnelExponent: 2
+    - _FresnelIntensity: 2
     - _FresnelOn: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -95,8 +95,8 @@ Material:
     - _EmisiveMapColor: {r: 0.1245441, g: 1, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 1, g: 0.16509432, b: 0.3058507, a: 1}
-    - _Highlights: {r: 0.5414343, g: 0.26517445, b: 0.9528302, a: 1}
-    - _MainColor: {r: 0.7374628, g: 0.33490568, b: 1, a: 1}
+    - _Highlights: {r: 1, g: 0.740566, b: 0.878493, a: 1}
+    - _MainColor: {r: 1, g: 0, b: 0.6197448, a: 1}
     - _OutlineColor: {r: 0.49019608, g: 0.44157335, b: 0.24313726, a: 1}
     - _Shadows: {r: 0.20558916, g: 0.23156786, b: 0.26415092, a: 1}
   m_BuildTextureStacks: []

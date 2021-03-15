@@ -13,7 +13,9 @@ using UnityEditor;
 using System.IO;
 #endif
 
-
+#if UNITY_IOS
+using GameAnalyticsSDK.iOS;
+#endif
 
 namespace GameAnalyticsSDK
 {
@@ -710,6 +712,14 @@ namespace GameAnalyticsSDK
             GA_Wrapper.SubscribeIronSourceImpressions();
         }
 
+        // ----------------------- IOS 14+ APP TRACKING TRANSPARENCY ---------------------- //
+        public static void RequestTrackingAuthorization(IGameAnalyticsATTListener listener)
+        {
+#if UNITY_IOS
+            GameAnalyticsATTClient.Instance.RequestTrackingAuthorization(listener);
+#endif
+        }
+
         private static string GetUnityVersion()
         {
             string unityVersion = "";
@@ -786,15 +796,21 @@ namespace GameAnalyticsSDK
         /// </summary>
         /// <returns>Returns the Unity path to a specified file.</returns>
         /// <param name="">File name including extension e.g. image.png</param>
-        public static string WhereIs(string _file)
+        public static string WhereIs(string _file, string _type)
         {
 #if UNITY_SAMSUNGTV
             return "";
 #else
-            string[] assets = { Path.DirectorySeparatorChar + "Assets" + Path.DirectorySeparatorChar};
-            FileInfo[] myFile = new DirectoryInfo ("Assets").GetFiles (_file, SearchOption.AllDirectories);
-            string[] temp = myFile [0].ToString ().Split (assets, 2, System.StringSplitOptions.None);
-            return "Assets" + Path.DirectorySeparatorChar + temp [1];
+            string[] guids = AssetDatabase.FindAssets("t:" + _type);
+            foreach(string g in guids)
+            {
+                string p = AssetDatabase.GUIDToAssetPath(g);
+                if(p.EndsWith(_file))
+                {
+                    return p;
+                }
+            }
+            return "";
 #endif
         }
 
@@ -809,7 +825,7 @@ namespace GameAnalyticsSDK
 
                 if(GameAnalytics.SettingsGA.Logo == null)
                 {
-                    GameAnalytics.SettingsGA.Logo = (Texture2D)AssetDatabase.LoadAssetAtPath(WhereIs("gaLogo.png"), typeof(Texture2D));
+                    GameAnalytics.SettingsGA.Logo = (Texture2D)AssetDatabase.LoadAssetAtPath(WhereIs("gaLogo.png", "Texture2D"), typeof(Texture2D));
                 }
 
                 Graphics.DrawTexture(new Rect(GUILayoutUtility.GetLastRect().width - selectionRect.height - 5 - addX, selectionRect.y, selectionRect.height, selectionRect.height), GameAnalytics.SettingsGA.Logo);
